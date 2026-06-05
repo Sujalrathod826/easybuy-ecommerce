@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     path('create-admin/', views.create_admin),
+    
 
     # HOME
     path('', views.home, name='home'),

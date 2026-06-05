@@ -6,15 +6,9 @@ from django.conf.urls.static import static
 from django.core.management import call_command
 from django.http import HttpResponse
 
-def load_products(request):
-    call_command('loaddata', 'products.json')
-    return HttpResponse("Products imported successfully")
-
 urlpatterns = [
 
     path('admin/', admin.site.urls),
-    
-    path('load-products/', load_products),
 
     path('', include('store.urls')),
 
@@ -77,3 +71,6 @@ if settings.DEBUG:
     )
 
 
+def load_products(request):
+    call_command('loaddata', 'products.json')
+    return HttpResponse("Products imported")

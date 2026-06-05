@@ -3,7 +3,6 @@ from . import views
 
 urlpatterns = [
     path('create-admin/', views.create_admin),
-    path('import-products/', views.import_products),
 
     # HOME
     path('', views.home, name='home'),

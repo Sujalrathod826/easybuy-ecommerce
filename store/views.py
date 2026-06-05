@@ -473,3 +473,26 @@ def add_review(request, product_id):
         )
 
     return redirect('product_detail', id=product.id)
+
+    import json
+from django.http import HttpResponse
+from .models import Product
+
+def import_products(request):
+
+    with open('products.json', 'r', encoding='utf-8') as f:
+        data = json.load(f)
+
+    count = 0
+
+    for item in data:
+        fields = item['fields']
+
+        Product.objects.get_or_create(
+            name=fields['name'],
+            defaults=fields
+        )
+
+        count += 1
+
+    return HttpResponse(f"{count} products imported")

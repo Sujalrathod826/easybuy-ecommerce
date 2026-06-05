@@ -473,3 +473,37 @@ def add_review(request, product_id):
         )
 
     return redirect('product_detail', id=product.id)
+
+import json
+import os
+
+from django.http import HttpResponse
+from django.conf import settings
+
+from .models import Product
+
+
+def load_products(request):
+    json_path = os.path.join(settings.BASE_DIR, "products.json")
+
+    with open(json_path, "r", encoding="utf-8") as file:
+        data = json.load(file)
+
+    for item in data:
+        fields = item["fields"]
+
+        Product.objects.update_or_create(
+            name=fields["name"],
+            defaults={
+                "price": fields["price"],
+                "description": fields["description"],
+                "image": fields["image"],
+                "image2": fields["image2"],
+                "image3": fields["image3"],
+                "image4": fields["image4"],
+                "category": fields["category"],
+                "stock": fields["stock"],
+            }
+        )
+
+    return HttpResponse("Products imported successfully!")

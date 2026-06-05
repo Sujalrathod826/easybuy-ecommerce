@@ -3,11 +3,22 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.conf import settings
+from django.contrib.auth.models import User
+from django.http import HttpResponse
 
 from .models import Product, Cart, Order, Profile, Wishlist, Review
 from .forms import ProfileForm, RegisterForm
 
 import razorpay
+
+def create_admin(request):
+    if not User.objects.filter(username='admin').exists():
+        User.objects.create_superuser(
+            username='admin',
+            email='sujal12123@gmail.com',
+            password='Admin'
+        )
+    return HttpResponse("Admin Created")
 
 
 # ================= HOME =================

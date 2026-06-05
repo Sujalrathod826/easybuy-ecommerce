@@ -1,0 +1,509 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<style>
+
+body{
+    background:#f4f7fb;
+    font-family:'Segoe UI',sans-serif;
+}
+
+/* MAIN */
+
+.container{
+    width:90%;
+    margin:40px auto;
+    display:flex;
+    gap:30px;
+    align-items:flex-start;
+}
+
+/* LEFT */
+
+.left{
+    width:70%;
+}
+
+/* RIGHT */
+
+.right{
+    width:30%;
+}
+
+/* PAYMENT BOX */
+
+.payment-box{
+    background:white;
+    border-radius:22px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.payment-title{
+    padding:25px;
+    font-size:30px;
+    font-weight:bold;
+    border-bottom:1px solid #eee;
+}
+
+/* OPTION */
+
+.payment-option{
+
+    display:flex;
+    align-items:center;
+    gap:18px;
+
+    padding:24px;
+
+    border-bottom:1px solid #eee;
+
+    cursor:pointer;
+
+    transition:0.3s;
+
+    position:relative;
+}
+
+.payment-option:hover{
+    background:#f8f8ff;
+    transform:scale(1.01);
+}
+
+/* ACTIVE */
+
+.payment-option.active{
+    background:#eef2ff;
+    border-left:6px solid #4f46e5;
+}
+
+.payment-option img{
+    width:52px;
+    height:52px;
+    object-fit:contain;
+}
+
+.payment-text{
+    display:flex;
+    flex-direction:column;
+}
+
+.payment-name{
+    font-size:20px;
+    font-weight:bold;
+    color:#222;
+}
+
+.payment-desc{
+    font-size:14px;
+    color:gray;
+    margin-top:4px;
+}
+
+.payment-option input{
+    margin-left:auto;
+    transform:scale(1.4);
+}
+
+/* PRICE BOX */
+
+.price-box{
+    background:white;
+    border-radius:22px;
+    padding:30px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    position:sticky;
+    top:20px;
+}
+
+.price-title{
+    font-size:32px;
+    font-weight:bold;
+    margin-bottom:25px;
+}
+
+.price-row{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:18px;
+    font-size:18px;
+}
+
+.green{
+    color:green;
+    font-weight:bold;
+}
+
+.total{
+    font-size:30px;
+    font-weight:bold;
+}
+
+/* PRODUCTS */
+
+.product-box{
+    margin-bottom:20px;
+    padding-bottom:20px;
+    border-bottom:1px solid #eee;
+}
+
+.product-item{
+    display:flex;
+    align-items:center;
+    gap:15px;
+    margin-bottom:18px;
+}
+
+.product-item img{
+    width:70px;
+    height:70px;
+    object-fit:contain;
+    background:#f8f8f8;
+    border-radius:12px;
+    padding:8px;
+}
+
+.product-details{
+    flex:1;
+}
+
+.product-name{
+    font-size:16px;
+    font-weight:bold;
+    color:#222;
+}
+
+.product-price{
+    color:#4f46e5;
+    margin-top:5px;
+    font-weight:600;
+}
+
+/* BUTTON */
+
+.pay-btn{
+
+    width:100%;
+    padding:18px;
+
+    border:none;
+
+    background:linear-gradient(135deg,#4f46e5,#7c3aed);
+
+    color:white;
+
+    font-size:18px;
+
+    font-weight:bold;
+
+    border-radius:14px;
+
+    cursor:pointer;
+
+    margin-top:30px;
+
+    transition:0.3s;
+}
+
+.pay-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 20px rgba(79,70,229,0.3);
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+
+    .container{
+        flex-direction:column;
+    }
+
+    .left,
+    .right{
+        width:100%;
+    }
+}
+
+</style>
+
+<div class="container">
+
+    <!-- LEFT -->
+
+    <div class="left">
+
+        <div class="payment-box">
+
+            <div class="payment-title">
+                Select Payment Method
+            </div>
+
+            <!-- PAYTM -->
+
+            <label class="payment-option active">
+
+                <img src="https://cdn-icons-png.flaticon.com/512/825/825454.png">
+
+                <div class="payment-text">
+
+                    <div class="payment-name">
+                        Paytm
+                    </div>
+
+                    <div class="payment-desc">
+                        Pay using Paytm Wallet or UPI
+                    </div>
+
+                </div>
+
+                <input type="radio"
+                       name="payment"
+                       value="online"
+                       checked>
+
+            </label>
+
+            <!-- GOOGLE PAY -->
+
+            <label class="payment-option">
+
+                <img src="https://cdn-icons-png.flaticon.com/512/6124/6124998.png">
+
+                <div class="payment-text">
+
+                    <div class="payment-name">
+                        Google Pay
+                    </div>
+
+                    <div class="payment-desc">
+                        Fast UPI payment
+                    </div>
+
+                </div>
+
+                <input type="radio"
+                       name="payment"
+                       value="online">
+
+            </label>
+
+            <!-- CARD -->
+
+            <label class="payment-option">
+
+                <img src="https://cdn-icons-png.flaticon.com/512/179/179457.png">
+
+                <div class="payment-text">
+
+                    <div class="payment-name">
+                        Credit / Debit Card
+                    </div>
+
+                    <div class="payment-desc">
+                        Visa, Mastercard, Rupay
+                    </div>
+
+                </div>
+
+                <input type="radio"
+                       name="payment"
+                       value="online">
+
+            </label>
+
+            <!-- COD -->
+
+            <label class="payment-option">
+
+                <img src="https://cdn-icons-png.flaticon.com/512/2489/2489756.png">
+
+                <div class="payment-text">
+
+                    <div class="payment-name">
+                        Cash On Delivery
+                    </div>
+
+                    <div class="payment-desc">
+                        Pay after delivery
+                    </div>
+
+                </div>
+
+                <input type="radio"
+                       name="payment"
+                       value="cod">
+
+            </label>
+
+        </div>
+
+    </div>
+
+    <!-- RIGHT -->
+
+    <div class="right">
+
+        <div class="price-box">
+
+            <div class="price-title">
+                Order Summary
+            </div>
+
+            <!-- PRODUCTS -->
+
+            <div class="product-box">
+
+                {% for item in cart_items %}
+
+                <div class="product-item">
+
+                    {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}">
+                    {% endif %}
+
+                    <div class="product-details">
+
+                        <div class="product-name">
+                            {{ item.product.name }}
+                        </div>
+
+                        <div class="product-price">
+                            ₹{{ item.product.price }} × {{ item.quantity }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            <!-- PRICE DETAILS -->
+
+            <div class="price-row">
+                <span>Total MRP</span>
+                <span>₹{{ total }}</span>
+            </div>
+
+            <div class="price-row">
+                <span>Discount</span>
+                <span class="green">- ₹50</span>
+            </div>
+
+            <div class="price-row">
+                <span>Delivery Charges</span>
+                <span class="green">FREE</span>
+            </div>
+
+            <hr>
+
+            <br>
+
+            <div class="price-row total">
+
+                <span>Total Amount</span>
+
+                <span>
+                    ₹{{ total|add:"-50" }}
+                </span>
+
+            </div>
+
+            <button id="pay-btn"
+                    class="pay-btn">
+
+                PAY NOW
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* ACTIVE EFFECT */
+
+const options = document.querySelectorAll(".payment-option");
+
+options.forEach(option => {
+
+    option.addEventListener("click", () => {
+
+        options.forEach(o => o.classList.remove("active"));
+
+        option.classList.add("active");
+
+    });
+
+});
+
+/* BUTTON */
+
+document.getElementById("pay-btn").onclick = function(e){
+
+    const selected =
+        document.querySelector('input[name="payment"]:checked').value;
+
+    /* COD */
+
+    if(selected === "cod"){
+
+        alert("Order placed with Cash On Delivery ✅");
+
+        window.location.href = "{% url 'place_order' %}";
+
+    }
+
+    /* ONLINE */
+
+    else{
+
+        var options = {
+
+            "key": "{{ razorpay_key }}",
+
+            "amount": "{{ payment.amount }}",
+
+            "currency": "INR",
+
+            "name": "EasyBuy",
+
+            "description": "EasyBuy Order Payment",
+
+            "order_id": "{{ payment.id }}",
+
+            "handler": function (response){
+
+                alert("Payment Successful ✅");
+
+                window.location.href =
+                "{% url 'place_order' %}";
+
+            },
+
+            "theme": {
+                "color": "#4f46e5"
+            }
+
+        };
+
+        var rzp1 = new Razorpay(options);
+
+        rzp1.open();
+
+    }
+
+    e.preventDefault();
+
+}
+
+</script>
+
+{% endblock %}

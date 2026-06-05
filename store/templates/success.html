@@ -1,0 +1,372 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+
+    body{
+        background:linear-gradient(135deg,#667eea,#764ba2);
+        min-height:100vh;
+        overflow-x:hidden;
+    }
+
+    /* MAIN BOX */
+
+    .success-container{
+
+        display:flex;
+
+        justify-content:center;
+
+        align-items:center;
+
+        min-height:90vh;
+
+        padding:30px;
+    }
+
+    .success-card{
+
+        width:100%;
+
+        max-width:700px;
+
+        background:rgba(255,255,255,0.12);
+
+        backdrop-filter:blur(15px);
+
+        border:1px solid rgba(255,255,255,0.2);
+
+        border-radius:30px;
+
+        padding:50px;
+
+        text-align:center;
+
+        color:white;
+
+        box-shadow:0 15px 40px rgba(0,0,0,0.25);
+
+        animation:fadeUp 1s ease;
+    }
+
+    @keyframes fadeUp{
+
+        from{
+            opacity:0;
+            transform:translateY(40px);
+        }
+
+        to{
+            opacity:1;
+            transform:translateY(0);
+        }
+    }
+
+    /* SUCCESS ICON */
+
+    .checkmark{
+
+        width:130px;
+
+        height:130px;
+
+        border-radius:50%;
+
+        background:white;
+
+        display:flex;
+
+        justify-content:center;
+
+        align-items:center;
+
+        margin:auto;
+
+        animation:pop 0.6s ease;
+    }
+
+    @keyframes pop{
+
+        0%{
+            transform:scale(0);
+        }
+
+        100%{
+            transform:scale(1);
+        }
+    }
+
+    .checkmark span{
+
+        font-size:70px;
+
+        color:#22c55e;
+
+        font-weight:bold;
+    }
+
+    /* TITLE */
+
+    .success-title{
+
+        font-size:42px;
+
+        font-weight:bold;
+
+        margin-top:30px;
+    }
+
+    .success-text{
+
+        margin-top:15px;
+
+        font-size:18px;
+
+        color:#f1f1f1;
+
+        line-height:1.7;
+    }
+
+    /* ORDER DETAILS */
+
+    .details-box{
+
+        margin-top:35px;
+
+        background:rgba(255,255,255,0.1);
+
+        border-radius:20px;
+
+        padding:30px;
+
+        text-align:left;
+    }
+
+    .detail-row{
+
+        display:flex;
+
+        justify-content:space-between;
+
+        margin-bottom:18px;
+
+        font-size:17px;
+    }
+
+    .detail-title{
+
+        color:#ddd;
+    }
+
+    .detail-value{
+
+        font-weight:bold;
+    }
+
+    /* BUTTONS */
+
+    .btn-group{
+
+        margin-top:35px;
+
+        display:flex;
+
+        justify-content:center;
+
+        gap:20px;
+
+        flex-wrap:wrap;
+    }
+
+    .custom-btn{
+
+        padding:15px 28px;
+
+        border:none;
+
+        border-radius:12px;
+
+        font-size:16px;
+
+        font-weight:bold;
+
+        cursor:pointer;
+
+        transition:0.3s;
+
+        text-decoration:none;
+    }
+
+    .shop-btn{
+
+        background:white;
+
+        color:#333;
+    }
+
+    .shop-btn:hover{
+
+        transform:translateY(-3px);
+
+        box-shadow:0 10px 20px rgba(255,255,255,0.2);
+    }
+
+    .order-btn{
+
+        background:#22c55e;
+
+        color:white;
+    }
+
+    .order-btn:hover{
+
+        background:#16a34a;
+
+        transform:translateY(-3px);
+    }
+
+    /* CONFETTI DOTS */
+
+    .circle{
+
+        position:absolute;
+
+        border-radius:50%;
+
+        opacity:0.5;
+
+        animation:float 8s infinite linear;
+    }
+
+    @keyframes float{
+
+        from{
+            transform:translateY(100vh) rotate(0deg);
+        }
+
+        to{
+            transform:translateY(-120vh) rotate(360deg);
+        }
+    }
+
+</style>
+
+<!-- FLOATING CIRCLES -->
+
+<div class="circle" style="width:20px;height:20px;background:#fff;left:10%;animation-duration:7s;"></div>
+<div class="circle" style="width:30px;height:30px;background:#00ffcc;left:30%;animation-duration:10s;"></div>
+<div class="circle" style="width:15px;height:15px;background:#ffdd57;left:50%;animation-duration:6s;"></div>
+<div class="circle" style="width:25px;height:25px;background:#ff6b6b;left:70%;animation-duration:9s;"></div>
+<div class="circle" style="width:18px;height:18px;background:#fff;left:90%;animation-duration:8s;"></div>
+
+<!-- MAIN -->
+
+<div class="success-container">
+
+    <div class="success-card">
+
+        <!-- ICON -->
+
+        <div class="checkmark">
+
+            <span>✓</span>
+
+        </div>
+
+        <!-- TITLE -->
+
+        <div class="success-title">
+
+            Payment Successful
+
+        </div>
+
+        <!-- TEXT -->
+
+        <div class="success-text">
+
+            Your order has been placed successfully.<br>
+            Thank you for shopping 
+
+        </div>
+
+        <!-- DETAILS -->
+
+        <div class="details-box">
+
+            <div class="detail-row">
+
+                <span class="detail-title">
+                    Order Status
+                </span>
+
+                <span class="detail-value">
+                    Confirmed
+                </span>
+
+            </div>
+
+            <div class="detail-row">
+
+                <span class="detail-title">
+                    Payment Method
+                </span>
+
+                <span class="detail-value">
+                    Razorpay / UPI/cod
+                </span>
+
+            </div>
+
+            <div class="detail-row">
+
+                <span class="detail-title">
+                    Estimated Delivery
+                </span>
+
+                <span class="detail-value">
+                    3 - 5 Days
+                </span>
+
+            </div>
+
+            <div class="detail-row">
+
+                <span class="detail-title">
+                    Support
+                </span>
+
+                <span class="detail-value">
+                    easybuy8266@gmail.com
+                </span>
+
+            </div>
+
+        </div>
+
+        <!-- BUTTONS -->
+
+        <div class="btn-group">
+
+            <a href="{% url 'home' %}"
+               class="custom-btn shop-btn">
+
+                Continue Shopping
+
+            </a>
+
+            <a href="{% url 'my_orders' %}"
+               class="custom-btn order-btn">
+
+                View Orders
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

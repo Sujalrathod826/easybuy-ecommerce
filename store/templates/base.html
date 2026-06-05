@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EasyBuy</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Segoe UI',sans-serif;
+        }
+
+        body{
+            background:#f5f6fa;
+        }
+
+        /* ===== MAIN NAVBAR ===== */
+
+        .navbar{
+            background:white;
+            padding:16px 50px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            box-shadow:0 2px 10px rgba(0,0,0,0.05);
+            position:sticky;
+            top:0;
+            z-index:1000;
+        }
+
+        /* ===== LOGO ===== */
+
+        .logo a{
+            font-size:28px;
+            font-weight:800;
+            color:#4e54c8;
+            text-decoration:none;
+        }
+
+        /* ===== NAV LINKS ===== */
+
+        .nav-links{
+            display:flex;
+            align-items:center;
+            gap:20px;
+        }
+
+        .nav-links a{
+            text-decoration:none;
+            color:#555;
+            font-weight:600;
+            transition:0.3s;
+        }
+
+        .nav-links a:hover{
+            color:#4e54c8;
+        }
+
+        /* ===== CATEGORY BAR ===== */
+
+        .category-bar{
+            background:white;
+            padding:14px 40px;
+            display:flex;
+            justify-content:center;
+            gap:35px;
+            box-shadow:0 2px 10px rgba(0,0,0,0.05);
+            position:sticky;
+            top:72px;
+            z-index:999;
+        }
+
+        .category-bar a{
+            text-decoration:none;
+            color:#444;
+            font-weight:600;
+            transition:0.3s;
+            font-size:15px;
+        }
+
+        .category-bar a:hover{
+            color:#4e54c8;
+            transform:translateY(-2px);
+        }
+
+        /* ===== DROPDOWN ===== */
+
+        .dropdown{
+            position:relative;
+            display:inline-block;
+        }
+
+        .profile-btn{
+            cursor:pointer;
+            color:#555;
+            font-weight:600;
+            text-decoration:none;
+        }
+
+        .profile-btn:hover{
+            color:#4e54c8;
+        }
+
+        /* ===== DROPDOWN CONTENT ===== */
+
+        .dropdown-content{
+            display:none;
+            position:absolute;
+            top:35px;
+            right:0;
+            background:white;
+            min-width:200px;
+            border-radius:14px;
+            overflow:hidden;
+            box-shadow:0 5px 20px rgba(0,0,0,0.12);
+            z-index:1000;
+        }
+
+        .dropdown-content a{
+            display:block;
+            padding:14px 18px;
+            color:#333;
+            text-decoration:none;
+            transition:0.3s;
+            margin:0;
+        }
+
+        .dropdown-content a:hover{
+            background:#4e54c8;
+            color:white;
+        }
+
+        .dropdown:hover .dropdown-content{
+            display:block;
+        }
+
+        /* ===== LOGOUT ===== */
+
+        .logout-form{
+            margin:0;
+        }
+
+        .logout-btn{
+            background:#ff4d4d;
+            border:none;
+            color:white;
+            padding:10px 16px;
+            border-radius:8px;
+            font-weight:bold;
+            cursor:pointer;
+            transition:0.3s;
+        }
+
+        .logout-btn:hover{
+            background:#e60000;
+        }
+
+        /* ===== MOBILE ===== */
+
+        @media(max-width:768px){
+
+            .navbar{
+                padding:15px 20px;
+                flex-direction:column;
+                gap:15px;
+            }
+
+            .nav-links{
+                flex-wrap:wrap;
+                justify-content:center;
+                gap:12px;
+            }
+
+            .category-bar{
+                flex-wrap:wrap;
+                gap:15px;
+                padding:15px;
+                top:120px;
+            }
+
+            .logo a{
+                font-size:24px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<!-- ===== MAIN NAVBAR ===== -->
+
+<nav class="navbar">
+
+    <!-- LOGO -->
+
+    <div class="logo">
+
+        <a href="{% url 'home' %}">
+            EasyBuy
+        </a>
+
+    </div>
+
+    <!-- NAVIGATION -->
+
+    <div class="nav-links">
+
+        <a href="{% url 'home' %}">
+            Home
+        </a>
+
+        {% if user.is_authenticated %}
+
+            <!-- WISHLIST -->
+
+            <a href="{% url 'wishlist' %}">
+                Wishlist
+            </a>
+
+            <!-- CART -->
+
+            <a href="{% url 'cart' %}">
+                🛒 Cart
+            </a>
+
+            <!-- PROFILE -->    
+
+            <div class="dropdown">
+
+                <a href="{% url 'profile' %}"
+                   class="profile-btn">
+
+                    Profile ▼
+
+                </a>
+
+                <div class="dropdown-content">
+
+                    <a href="{% url 'profile' %}">
+                        My Profile
+                    </a>
+
+                    <a href="{% url 'dashboard' %}">
+                        Dashboard
+                    </a>
+
+                    <a href="{% url 'my_orders' %}">
+                        My Orders
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- LOGOUT -->
+
+            <form action="{% url 'logout' %}"
+                  method="POST"
+                  class="logout-form">
+
+                {% csrf_token %}
+
+                <button type="submit"
+                        class="logout-btn">
+
+                    Logout
+
+                </button>
+
+            </form>
+
+        {% else %}
+
+            <a href="{% url 'login' %}">
+                Login
+            </a>
+
+            <a href="{% url 'register' %}">
+                Register
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</nav>
+
+<!-- ===== CATEGORY NAVBAR ===== -->
+
+
+<!-- ===== CATEGORY NAVBAR ===== -->
+
+{% if request.path == '/' %}
+
+<!-- ===== CATEGORY NAVBAR ===== -->
+
+<div class="category-bar">
+
+    <a href="?category=Fashion">
+        Fashion
+    </a>
+
+    <a href="?category=Mobiles">
+        Mobiles
+    </a>
+
+    <a href="?category=Electronics">
+        Electronics
+    </a>
+
+    <a href="?category=Beauty">
+        Beauty
+    </a>
+
+    <a href="?category=Appliances">
+        Appliances
+    </a>
+
+</div>
+{% endif %}
+
+<!-- ===== PAGE CONTENT ===== -->
+
+{% block content %}
+{% endblock %}
+
+</body>
+
+</html>

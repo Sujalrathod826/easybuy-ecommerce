@@ -1,0 +1,326 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+
+    /* HERO */
+
+    .hero{
+        height:320px;
+        background:linear-gradient(135deg,#4e54c8,#8f94fb);
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        color:white;
+        text-align:center;
+        padding:20px;
+    }
+
+    .hero h1{
+        font-size:50px;
+        margin-bottom:15px;
+    }
+
+    .hero p{
+        font-size:20px;
+        margin-bottom:25px;
+    }
+
+    /* SEARCH BAR */
+
+    .search-box{
+        width:200%;
+        max-width:500px;
+        display:flex;
+        background:white;
+        border-radius:50px;
+        overflow:hidden;
+        box-shadow:0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .search-box input{
+        flex:1;
+        padding:10px 10px;
+        border:none;
+        outline:none;
+        font-size:16px;
+    }
+
+    .search-box button{
+        width:120px;
+        border:none;
+        background:black;
+        color:white;
+        font-size:16px;
+        cursor:pointer;
+        transition:0.3s;
+    }
+
+    .search-box button:hover{
+        background:#333;
+    }
+
+    /* PRODUCTS */
+
+    .container{
+        padding:60px;
+    }
+
+    .section-title{
+        font-size:32px;
+        margin-bottom:30px;
+        color:#222;
+    }
+
+    .products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+    }
+
+    /* CARD */
+
+    .card{
+        background:white;
+        border-radius:18px;
+        overflow:hidden;
+        box-shadow:0 8px 25px rgba(0,0,0,0.08);
+        transition:0.3s;
+    }
+
+    .card:hover{
+        transform:translateY(-8px);
+        box-shadow:0 15px 35px rgba(0,0,0,0.15);
+    }
+
+    .product-link{
+        text-decoration:none;
+    }
+
+    .card img{
+        width:100%;
+        height:220px;
+        object-fit:contain;
+        background:#fafafa;
+        padding:20px;
+        cursor:pointer;
+        transition:0.3s;
+    }
+
+    .card img:hover{
+        transform:scale(1.03);
+    }
+
+    .card-content{
+        padding:20px;
+    }
+
+    .product-name{
+        font-size:22px;
+        font-weight:700;
+        color:#222;
+        margin-bottom:10px;
+    }
+
+    .price{
+        color:#0a8f3d;
+        font-size:20px;
+        font-weight:bold;
+        margin-bottom:18px;
+    }
+
+    /* BUTTON AREA */
+
+    .button-group{
+        display:flex;
+        gap:10px;
+    }
+
+    .btn{
+        flex:1;
+        padding:12px;
+        border:none;
+        border-radius:10px;
+        color:white;
+        font-size:15px;
+        cursor:pointer;
+        transition:0.3s;
+        font-weight:600;
+    }
+
+    .cart-btn{
+        background:black;
+    }
+
+    .cart-btn:hover{
+        background:#333;
+    }
+
+    .wishlist-btn{
+        background:#ff3b5c;
+    }
+
+    .wishlist-btn:hover{
+        background:#e60039;
+    }
+
+    .login-btn{
+        width:100%;
+        background:#4e54c8;
+    }
+
+    .login-btn:hover{
+        background:#3c42b5;
+    }
+
+    .empty{
+        text-align:center;
+        font-size:20px;
+        color:#666;
+        margin-top:50px;
+    }
+
+    /* FOOTER */
+
+    .footer{
+        margin-top:60px;
+        padding:25px;
+        text-align:center;
+        background:white;
+        color:#666;
+    }
+
+</style>
+
+<!-- HERO -->
+
+<div class="hero">
+
+    <h1>
+        EasyBuy Amazing Products
+    </h1>
+
+    <p>
+        Best deals. Best quality. Just for you.
+    </p>
+
+    <!-- SEARCH BAR -->
+
+    <form method="GET" action="" class="search-box">
+
+        <input type="text"
+               name="search"
+               placeholder="Search products..."
+               value="{{ request.GET.search }}">
+
+        <button type="submit">
+            Search
+        </button>
+
+    </form>
+
+</div>
+
+<!-- PRODUCTS -->
+
+<div class="container">
+
+    <div class="section-title">
+        Latest Products
+    </div>
+
+    <div class="products">
+
+        {% for product in products %}
+
+        <div class="card">
+
+            <!-- IMAGE CLICKABLE -->
+
+            <a href="{% url 'product_detail' product.id %}"
+               class="product-link">
+
+                {% if product.image %}
+                    <img src="{{ product.image.url }}">
+                {% else %}
+                    <img src="https://via.placeholder.com/300">
+                {% endif %}
+
+            </a>
+
+            <div class="card-content">
+
+                <div class="product-name">
+                    {{ product.name }}
+                </div>
+
+                <div class="price">
+                    ₹{{ product.price }}
+                </div>
+
+                {% if user.is_authenticated %}
+
+                <div class="button-group">
+
+                    <!-- ADD TO CART -->
+
+                    <a href="{% url 'add_to_cart' product.id %}"
+                       style="flex:1;">
+
+                        <button class="btn cart-btn">
+                            🛒 Cart
+                        </button>
+
+                    </a>
+
+                    <!-- WISHLIST -->
+
+                    <a href="{% url 'add_to_wishlist' product.id %}"
+                       style="flex:1;">
+
+                        <button class="btn wishlist-btn">
+                             Wishlist
+                        </button>
+
+                    </a>
+
+                </div>
+
+                {% else %}
+
+                    <a href="{% url 'login' %}">
+
+                        <button class="btn login-btn">
+                            Login To Buy
+                        </button>
+
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="empty">
+            No Products Found 😢
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="footer">
+    © 2026 EasyBuy — All Rights Reserved
+</div>
+
+{% endblock %}

@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+
+/* DARK FUTURISTIC BACKGROUND */
+body{
+    margin:0;
+    background:radial-gradient(circle at top,#0f172a,#020617);
+    overflow-x:hidden;
+}
+
+/* BACKGROUND ORBS */
+.orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(80px);
+    opacity:.6;
+    animation:float 6s infinite ease-in-out;
+}
+
+.orb1{
+    width:250px;
+    height:250px;
+    background:#3b82f6;
+    top:10%;
+    left:10%;
+}
+
+.orb2{
+    width:200px;
+    height:200px;
+    background:#a855f7;
+    bottom:10%;
+    right:10%;
+}
+
+@keyframes float{
+    0%{transform:translateY(0);}
+    50%{transform:translateY(-25px);}
+    100%{transform:translateY(0);}
+}
+
+/* WRAPPER */
+.login-wrapper{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+}
+
+/* CARD */
+.login-card{
+    width:100%;
+    max-width:420px;
+    padding:40px;
+    border-radius:18px;
+    background:rgba(15,23,42,.85);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(59,130,246,.3);
+    box-shadow:0 0 40px rgba(59,130,246,.2);
+    color:white;
+    animation:slideIn .8s ease;
+}
+
+@keyframes slideIn{
+    from{
+        opacity:0;
+        transform:translateY(40px) scale(.95);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+/* TITLE */
+.title{
+    text-align:center;
+    font-size:32px;
+    font-weight:800;
+    margin-bottom:5px;
+}
+
+.subtitle{
+    text-align:center;
+    font-size:14px;
+    opacity:.7;
+    margin-bottom:25px;
+}
+
+/* INPUT */
+.input-box{
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    border-radius:10px;
+    border:1px solid rgba(59,130,246,.3);
+    background:transparent;
+    color:white;
+    outline:none;
+    transition:.3s;
+}
+
+.input-box:focus{
+    border-color:#3b82f6;
+    box-shadow:0 0 15px rgba(59,130,246,.4);
+}
+
+/* BUTTON */
+.btn-login{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(90deg,#3b82f6,#a855f7);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.btn-login:hover{
+    transform:scale(1.03);
+}
+
+/* ERROR */
+.error{
+    background:rgba(239,68,68,.2);
+    padding:10px;
+    border-radius:8px;
+    text-align:center;
+    margin-bottom:15px;
+}
+
+/* LINKS */
+.footer{
+    text-align:center;
+    margin-top:15px;
+    font-size:14px;
+}
+
+.footer a{
+    color:#60a5fa;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.footer a:hover{
+    text-decoration:underline;
+}
+
+.forgot-link{
+    text-align:right;
+    margin-bottom:15px;
+}
+
+.forgot-link a{
+    color:#60a5fa;
+    text-decoration:none;
+    font-size:14px;
+}
+
+.forgot-link a:hover{
+    text-decoration:underline;
+}
+
+</style>
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+
+<div class="login-wrapper">
+
+    <div class="login-card">
+
+        <div class="title">Welcome Back</div>
+
+        <div class="subtitle">
+            Login to EasyBuy Dashboard
+        </div>
+
+        {% if form.errors %}
+        <div class="error">
+            Invalid Username or Password
+        </div>
+        {% endif %}
+
+        <form method="post">
+
+            {% csrf_token %}
+
+            <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                class="input-box"
+                required
+            >
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                class="input-box"
+                required
+            >
+
+            <!-- REMOVE THIS LINE IF PASSWORD RESET NOT SETUP -->
+            <div class="forgot-link">
+            <a href="{% url 'password_reset' %}">
+              Forgot Password?
+            </a>
+            </div>
+
+            <button type="submit" class="btn-login">
+                Login
+            </button>
+
+        </form>
+
+        <div class="footer">
+            Don't have an account?
+            <a href="{% url 'register' %}">
+                Register
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}  

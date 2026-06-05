@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+    body {
+        background: #f4f6f9;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+        height: 100vh;
+        background: #111;
+        color: white;
+        padding: 25px;
+    }
+
+    .sidebar a {
+        display: block;
+        color: #ddd;
+        text-decoration: none;
+        margin: 15px 0;
+        font-weight: 500;
+    }
+
+    .sidebar a:hover {
+        color: #00bcd4;
+    }
+
+    /* CARD STYLE */
+    .card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+</style>
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <!-- SIDEBAR -->
+        <div class="col-md-3 sidebar">
+
+            <h3>👤 My Account</h3>
+
+            <hr style="background:white;">
+
+            <a href="{% url 'profile' %}">Profile</a>
+            <a href="{% url 'my_orders' %}">Orders</a>
+            <a href="{% url 'cart' %}">Cart</a>
+            <a href="{% url 'edit_profile' %}">Edit Profile</a>
+
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="col-md-9 p-4">
+
+            <h2 class="mb-4">Welcome, {{ profile.user.username }} 👋</h2>
+
+            <div class="row">
+
+                <!-- PROFILE CARD -->
+                <div class="col-md-4 mb-3">
+                    <div class="card p-3">
+                        <h5>Profile Info</h5>
+                        <hr>
+                        <p><b>Email:</b> {{ profile.user.email }}</p>
+                        <p><b>Phone:</b> {{ profile.phone }}</p>
+                        <p><b>Address:</b> {{ profile.address }}</p>
+                    </div>
+                </div>
+
+                <!-- CART CARD -->
+                <div class="col-md-4 mb-3">
+                    <div class="card p-3">
+                        <h5>Cart</h5>
+                        <hr>
+                        <h2>{{ cart_items|length }}</h2>
+                        <p>Items in your cart</p>
+                    </div>
+                </div>
+
+                <!-- ORDERS CARD -->
+                <div class="col-md-4 mb-3">
+                    <div class="card p-3">
+                        <h5>Orders</h5>
+                        <hr>
+                        <h2>{{ orders|length }}</h2>
+                        <p>Total orders placed</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RECENT ORDERS -->
+            <div class="card p-3 mt-3">
+
+                <h5>Recent Orders</h5>
+                <hr>
+
+                {% for order in orders %}
+                    <p>
+                        📦 {{ order.product.name }} - {{ order.quantity }}
+                    </p>
+                {% empty %}
+                    <p>No orders yet</p>
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

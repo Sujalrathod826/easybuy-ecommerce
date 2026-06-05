@@ -1,0 +1,284 @@
+\{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+
+/* ===== BACKGROUND ===== */
+body{
+    background: linear-gradient(-45deg, #1f1c2c, #928dab, #1f1c2c, #2c3e50);
+    background-size:400% 400%;
+    animation:gradientBG 10s ease infinite;
+    min-height:100vh;
+}
+
+@keyframes gradientBG{
+
+    0%{
+        background-position:0% 50%;
+    }
+
+    50%{
+        background-position:100% 50%;
+    }
+
+    100%{
+        background-position:0% 50%;
+    }
+
+}
+
+/* ===== PAGE TITLE ===== */
+.page-title{
+    color:white;
+    font-weight:bold;
+    margin-bottom:35px;
+}
+
+/* ===== ORDER CARD ===== */
+.order-card{
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(12px);
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,0.2);
+    overflow:hidden;
+    transition:0.3s;
+    color:white;
+}
+
+.order-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 20px 40px rgba(0,0,0,0.4);
+}
+
+/* ===== PRODUCT IMAGE ===== */
+.product-img{
+    height:240px;
+    object-fit:cover;
+}
+
+/* ===== PRICE ===== */
+.price{
+    font-size:20px;
+    font-weight:bold;
+    color:#00ffcc;
+}
+
+/* ===== STATUS BADGE ===== */
+.status-badge{
+    padding:6px 14px;
+    border-radius:20px;
+    font-size:12px;
+    font-weight:600;
+}
+
+/* ===== BUTTONS ===== */
+.btn-custom{
+    border-radius:30px;
+    padding:6px 16px;
+}
+
+/* ===== EMPTY MESSAGE ===== */
+.empty-box{
+    background:rgba(255,255,255,0.15);
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    color:white;
+    font-size:20px;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+
+    .product-img{
+        height:200px;
+    }
+
+}
+
+</style>
+
+<div class="container py-5">
+
+    <!-- TITLE -->
+    <h2 class="page-title">
+        🧾 My Orders
+    </h2>
+
+    {% if orders %}
+
+    <div class="row g-4">
+
+        {% for order in orders %}
+
+        <div class="col-md-6 col-lg-4">
+
+            <!-- CARD -->
+            <div class="card order-card">
+
+                <!-- PRODUCT IMAGE -->
+                {% if order.product.image %}
+
+                <img src="{{ order.product.image.url }}"
+                     class="card-img-top product-img">
+
+                {% endif %}
+
+                <div class="card-body">
+
+                    <!-- ORDER NUMBER -->
+                    <small class="text-light">
+
+                        Order #{{ order.order_number }}
+
+                    </small>
+
+                    <!-- PRODUCT NAME -->
+                    <h5 class="mt-2">
+
+                        {{ order.product.name }}
+
+                    </h5>
+
+                    <!-- PRICE -->
+                    <p class="price">
+
+                        ₹{{ order.product.price }}
+
+                    </p>
+
+                    <!-- QUANTITY -->
+                    <p>
+
+                        Quantity:
+                        <b>{{ order.quantity }}</b>
+
+                    </p>
+
+                    <!-- ORDER DATE -->
+                    <p>
+
+                        Ordered On:
+                        {{ order.created_at }}
+
+                    </p>
+
+                    <!-- STATUS -->
+                    <p>
+
+                        Status:
+
+                        {% if order.status == "Pending" %}
+
+                            <span class="status-badge bg-warning text-dark">
+
+                                Pending
+
+                            </span>
+
+                        {% elif order.status == "Confirmed" %}
+
+                            <span class="status-badge bg-primary">
+
+                                Confirmed
+
+                            </span>
+
+                        {% elif order.status == "Processing" %}
+
+                            <span class="status-badge bg-info text-dark">
+
+                                Processing
+
+                            </span>
+
+                        {% elif order.status == "Shipped" %}
+
+                            <span class="status-badge bg-secondary">
+
+                                Shipped 🚚
+
+                            </span>
+
+                        {% elif order.status == "Out for Delivery" %}
+
+                            <span class="status-badge bg-dark">
+
+                                Out for Delivery 🛵
+
+                            </span>
+
+                        {% elif order.status == "Delivered" %}
+
+                            <span class="status-badge bg-success">
+
+                                Delivered ✅
+
+                            </span>
+
+                        {% elif order.status == "Cancelled" %}
+
+                            <span class="status-badge bg-danger">
+
+                                Cancelled ❌
+
+                            </span>
+
+                        {% endif %}
+
+                    </p>
+
+                    <!-- BUTTONS -->
+                    <div class="d-flex justify-content-between mt-4">
+
+                        <!-- CANCEL BUTTON -->
+                        {% if order.status == "Pending" %}
+
+                        <a href="{% url 'cancel_order' order.id %}"
+                           class="btn btn-outline-light btn-sm btn-custom">
+
+                            Cancel
+
+                        </a>
+
+                        {% else %}
+
+                        <span></span>
+
+                        {% endif %}
+
+                        <!-- INVOICE BUTTON -->
+                        <a href="{% url 'invoice' order.id %}"
+                           class="btn btn-success btn-sm btn-custom">
+
+                            Invoice
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <!-- EMPTY -->
+    <div class="empty-box">
+
+        🛒 No orders found yet
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

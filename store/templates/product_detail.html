@@ -1,0 +1,641 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+
+    body{
+        background:#f5f6fa;
+    }
+
+    .product-container{
+        padding:50px;
+        display:flex;
+        gap:50px;
+        align-items:flex-start;
+        flex-wrap:wrap;
+    }
+
+    /* IMAGE SECTION */
+
+    .product-image{
+        width:420px;
+        background:white;
+        padding:30px;
+        border-radius:20px;
+        box-shadow:0 8px 25px rgba(0,0,0,0.08);
+    }
+
+    .main-image img{
+        width:100%;
+        height:380px;
+        object-fit:contain;
+        border-radius:15px;
+    }
+
+    /* EXTRA IMAGES */
+
+    .extra-images{
+        display:flex;
+        gap:12px;
+        margin-top:20px;
+        flex-wrap:wrap;
+    }
+
+    .extra-images img{
+        width:90px;
+        height:90px;
+        object-fit:cover;
+        border-radius:12px;
+        border:2px solid #eee;
+        cursor:pointer;
+        transition:0.3s;
+    }
+
+    .extra-images img:hover{
+        transform:scale(1.05);
+        border-color:#111;
+    }
+
+    /* INFO */
+
+    .product-info{
+        flex:1;
+        min-width:300px;
+    }
+
+    .product-title{
+        font-size:42px;
+        font-weight:bold;
+        color:#222;
+        margin-bottom:18px;
+    }
+
+    .product-price{
+        font-size:34px;
+        color:green;
+        font-weight:bold;
+        margin-bottom:10px;
+    }
+
+    /* STOCK */
+
+    .stock{
+        font-size:18px;
+        font-weight:bold;
+        margin-bottom:20px;
+        padding:12px 18px;
+        border-radius:10px;
+        display:inline-block;
+    }
+
+    .low-stock{
+        background:#fff3e0;
+        color:#ff6b00;
+    }
+
+    .out-stock{
+        background:#ffe5e5;
+        color:red;
+    }
+
+    /* RATING */
+
+    .rating-box{
+        margin-bottom:25px;
+        font-size:20px;
+        color:#ff9800;
+        font-weight:bold;
+    }
+
+    .review-count{
+        color:#666;
+        font-size:16px;
+        margin-left:8px;
+    }
+
+    .product-description{
+        font-size:18px;
+        color:#555;
+        line-height:1.8;
+        margin-bottom:35px;
+    }
+
+    /* BUTTONS */
+
+    .button-group{
+        display:flex;
+        gap:15px;
+        flex-wrap:wrap;
+    }
+
+    .btn{
+        padding:15px 28px;
+        border:none;
+        border-radius:10px;
+        background:black;
+        color:white;
+        font-size:17px;
+        cursor:pointer;
+        transition:0.3s;
+        text-decoration:none;
+    }
+
+    .btn:hover{
+        background:#333;
+        transform:translateY(-2px);
+    }
+
+    .wishlist-btn{
+        background:#ff4081;
+    }
+
+    .wishlist-btn:hover{
+        background:#e91e63;
+    }
+
+    .out-btn{
+        background:red;
+        cursor:not-allowed;
+    }
+
+    /* RELATED PRODUCTS */
+
+    .related-section{
+        width:100%;
+        margin-top:50px;
+    }
+
+    .related-title{
+        font-size:32px;
+        font-weight:bold;
+        margin-bottom:25px;
+        color:#222;
+    }
+
+    .related-grid{
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+        gap:25px;
+    }
+
+    .related-card{
+        background:white;
+        padding:20px;
+        border-radius:18px;
+        text-align:center;
+        box-shadow:0 8px 20px rgba(0,0,0,0.08);
+        transition:0.3s;
+    }
+
+    .related-card:hover{
+        transform:translateY(-5px);
+    }
+
+    .related-card img{
+        width:100%;
+        height:220px;
+        object-fit:contain;
+        margin-bottom:15px;
+    }
+
+    .related-name{
+        font-size:20px;
+        font-weight:bold;
+        color:#222;
+        margin-bottom:10px;
+    }
+
+    .related-price{
+        color:green;
+        font-size:22px;
+        font-weight:bold;
+        margin-bottom:15px;
+    }
+
+    /* REVIEW SECTION */
+
+    .review-section{
+        width:100%;
+        margin-top:50px;
+        background:white;
+        padding:35px;
+        border-radius:20px;
+        box-shadow:0 8px 25px rgba(0,0,0,0.08);
+    }
+
+    .review-title{
+        font-size:32px;
+        font-weight:bold;
+        margin-bottom:30px;
+        color:#222;
+    }
+
+    .review-card{
+        padding:20px;
+        border-bottom:1px solid #eee;
+    }
+
+    .review-user{
+        font-size:18px;
+        font-weight:bold;
+        color:#222;
+        margin-bottom:8px;
+    }
+
+    .review-rating{
+        color:#ff9800;
+        margin-bottom:10px;
+        font-size:18px;
+    }
+
+    .review-comment{
+        color:#555;
+        line-height:1.7;
+        font-size:16px;
+    }
+
+    .no-review{
+        text-align:center;
+        color:#777;
+        font-size:18px;
+        padding:30px;
+    }
+
+    /* ADD REVIEW */
+
+    .review-form{
+        margin-top:40px;
+        padding:30px;
+        background:#fafafa;
+        border-radius:18px;
+    }
+
+    .review-form h3{
+        margin-bottom:20px;
+        font-size:28px;
+        color:#222;
+    }
+
+    .review-form select,
+    .review-form textarea{
+        width:100%;
+        padding:15px;
+        margin-bottom:20px;
+        border:1px solid #ddd;
+        border-radius:10px;
+        font-size:16px;
+        outline:none;
+    }
+
+    .review-form textarea{
+        height:120px;
+        resize:none;
+    }
+
+    .review-btn{
+        background:#4f46e5;
+    }
+
+    .review-btn:hover{
+        background:#4338ca;
+    }
+
+    /* MOBILE */
+
+    @media(max-width:900px){
+
+        .product-container{
+            padding:25px;
+        }
+
+        .product-image{
+            width:100%;
+        }
+
+        .product-title{
+            font-size:32px;
+        }
+
+        .product-price{
+            font-size:28px;
+        }
+
+    }
+
+</style>
+
+<script>
+
+    function changeImage(imageUrl){
+
+        document.getElementById("mainProductImage").src = imageUrl;
+
+    }
+
+</script>
+
+<div class="product-container">
+
+    <!-- PRODUCT IMAGE -->
+
+    <div class="product-image">
+
+        <div class="main-image">
+
+            {% if product.image %}
+
+                <img id="mainProductImage"
+                     src="{{ product.image.url }}">
+
+            {% else %}
+
+                <img id="mainProductImage"
+                     src="https://via.placeholder.com/400">
+
+            {% endif %}
+
+        </div>
+
+        <!-- EXTRA PRODUCT IMAGES -->
+
+        <div class="extra-images">
+
+            {% if product.image %}
+                <img src="{{ product.image.url }}"
+                     onclick="changeImage(this.src)">
+            {% endif %}
+
+            {% if product.image2 %}
+                <img src="{{ product.image2.url }}"
+                     onclick="changeImage(this.src)">
+            {% endif %}
+
+            {% if product.image3 %}
+                <img src="{{ product.image3.url }}"
+                     onclick="changeImage(this.src)">
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- PRODUCT INFO -->
+
+    <div class="product-info">
+
+        <div class="product-title">
+            {{ product.name }}
+        </div>
+
+        <div class="product-price">
+            ₹{{ product.price }}
+        </div>
+
+        <!-- STOCK STATUS -->
+
+        {% if product.stock == 0 %}
+
+            <div class="stock out-stock">
+                ❌ Out Of Stock
+            </div>
+
+        {% elif product.stock <= 50 %}
+
+            <div class="stock low-stock">
+                Only {{ product.stock }} items left
+            </div>
+
+        {% endif %}
+
+        <!-- AVERAGE RATING -->
+
+        <div class="rating-box">
+
+            ⭐ {{ average_rating }}/5
+
+            <span class="review-count">
+                ({{ reviews.count }} Reviews)
+            </span>
+
+        </div>
+
+        <div class="product-description">
+
+            {{ product.description }}
+
+        </div>
+
+        <!-- BUTTONS -->
+
+        <div class="button-group">
+
+            {% if user.is_authenticated %}
+
+                {% if product.stock > 0 %}
+
+                    <a href="{% url 'add_to_cart' product.id %}">
+
+                        <button class="btn">
+                            Add To Cart
+                        </button>
+
+                    </a>
+
+                {% else %}
+
+                    <button class="btn out-btn">
+
+                        Out Of Stock
+
+                    </button>
+
+                {% endif %}
+
+                <a href="{% url 'add_to_wishlist' product.id %}">
+
+                    <button class="btn wishlist-btn">
+                        Wishlist
+                    </button>
+
+                </a>
+
+            {% else %}
+
+                <a href="{% url 'login' %}">
+
+                    <button class="btn">
+                        Login To Buy
+                    </button>
+
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <!-- REVIEW SECTION -->
+
+    <div class="review-section">
+
+        <div class="review-title">
+            Customer Reviews
+        </div>
+
+        {% for review in reviews %}
+
+            <div class="review-card">
+
+                <div class="review-user">
+                    {{ review.user.username }}
+                </div>
+
+                <div class="review-rating">
+
+                    {% for i in "12345" %}
+
+                        {% if forloop.counter <= review.rating %}
+                            ⭐
+                        {% endif %}
+
+                    {% endfor %}
+
+                </div>
+
+                <div class="review-comment">
+                    {{ review.comment }}
+                </div>
+
+            </div>
+
+        {% empty %}
+
+            <div class="no-review">
+                No Reviews Yet 😢
+            </div>
+
+        {% endfor %}
+
+        <!-- ADD REVIEW -->
+
+        {% if user.is_authenticated %}
+
+            <div class="review-form">
+
+                <h3>
+                    Add Your Review
+                </h3>
+
+                <form method="POST"
+                      action="{% url 'add_review' product.id %}">
+
+                    {% csrf_token %}
+
+                    <select name="rating" required>
+
+                        <option value="">
+                            Select Rating
+                        </option>
+
+                        <option value="5">
+                            ⭐⭐⭐⭐⭐ (5)
+                        </option>
+
+                        <option value="4">
+                            ⭐⭐⭐⭐ (4)
+                        </option>
+
+                        <option value="3">
+                            ⭐⭐⭐ (3)
+                        </option>
+
+                        <option value="2">
+                            ⭐⭐ (2)
+                        </option>
+
+                        <option value="1">
+                            ⭐ (1)
+                        </option>
+
+                    </select>
+
+                    <textarea name="comment"
+                              placeholder="Write your review..."
+                              required></textarea>
+
+                    <button type="submit"
+                            class="btn review-btn">
+
+                        Submit Review
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        {% else %}
+
+            <div class="no-review">
+
+                Please login to add review
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    <!-- RELATED PRODUCTS -->
+
+    <div class="related-section">
+
+        <div class="related-title">
+            You May Also Like
+        </div>
+
+        <div class="related-grid">
+
+            {% for item in related_products %}
+
+                <div class="related-card">
+
+                    <a href="{% url 'product_detail' item.id %}">
+
+                        {% if item.image %}
+
+                            <img src="{{ item.image.url }}">
+
+                        {% endif %}
+
+                    </a>
+
+                    <div class="related-name">
+                        {{ item.name }}
+                    </div>
+
+                    <div class="related-price">
+                        ₹{{ item.price }}
+                    </div>
+
+                    <a href="{% url 'product_detail' item.id %}">
+
+                        <button class="btn">
+                            View Product
+                        </button>
+
+                    </a>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -7,7 +7,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ================= SECURITY =================
 SECRET_KEY = 'your-django-secret-key'
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # ================= INSTALLED APPS =================
@@ -122,6 +122,14 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # ================= DEFAULT AUTO FIELD =================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+STATIC_URL = 'static/'
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 

@@ -14,12 +14,13 @@ from django.http import HttpResponse
 def create_admin(request):
     if not User.objects.filter(username='admin').exists():
         User.objects.create_superuser(
-            username='admin',
-            email='sujalrathod12123@gmail.com',
-            password='Admin'
+            'admin',
+            'sujalrathod12123@gmail.com',
+            'Admin'
         )
+        return HttpResponse("Admin created")
 
-    return HttpResponse("Admin created")
+    return HttpResponse("Admin already exists")
 
 
 # ================= HOME =================

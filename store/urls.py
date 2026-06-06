@@ -1,10 +1,12 @@
 from django.urls import path
 from . import views
 from django.contrib import admin
+from .views import create_admin
 
-
-
-
+urlpatterns = [
+    # your existing urls
+    path('create-admin/', create_admin),
+]
 urlpatterns = [
     path('create-admin/', views.create_admin),
     

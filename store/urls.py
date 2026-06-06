@@ -1,13 +1,9 @@
 from django.urls import path
 from . import views
 from django.contrib import admin
-from .views import create_admin
 
-urlpatterns = [
-    path('create-admin/', views.create_admin),
-    
 
-    # HOME
+urlpatterns = [ # HOME
     path('', views.home, name='home'),
 
     # CART

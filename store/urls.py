@@ -1,12 +1,9 @@
 from django.urls import path
 from . import views
 from django.contrib import admin
-from .views import create_admin
 
 
-urlpatterns = [
-    path('easybuy-admin/', admin.site.urls),
-]
+
 
 urlpatterns = [
     path('create-admin/', views.create_admin),

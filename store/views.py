@@ -8,20 +8,6 @@ from .models import Product, Cart, Order, Profile, Wishlist, Review
 from .forms import ProfileForm, RegisterForm
 
 import razorpay
-from django.contrib.auth.models import User
-from django.http import HttpResponse
-
-def create_admin(request):
-    if not User.objects.filter(username='admin').exists():
-        User.objects.create_superuser(
-            'admin',
-            'sujalrathod12123@gmail.com',
-            'Admin'
-        )
-        return HttpResponse("Admin created")
-
-    return HttpResponse("Admin already exists")
-
 
 # ================= HOME =================
 def home(request):
